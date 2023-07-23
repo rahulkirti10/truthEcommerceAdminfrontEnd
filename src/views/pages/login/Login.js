@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as Loader from 'react-loader-spinner';
 import {
@@ -18,14 +18,19 @@ import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
+
 
 const Login = () => {
+  
   const navigate = useNavigate();
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const [showComponent, setShowComponent] = React.useState(false); // New state variable
-  const [showloader, setShowLoader] = React.useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showComponent, setShowComponent] = useState(false); // New state variable
+  const [showloader, setShowLoader] = useState(true);
+  const [showLoginLoader, setshowLoginLoader] = useState(false);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const apiUrl = process.env.REACT_APP_ADMIN_API_URL;
 
   useEffect(() => {
@@ -43,11 +48,14 @@ const Login = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
+    setErrorMessage('');
     if (username === '') {
       setErrorMessage('Please enter a valid username!');
     } else if (password === '') {
       setErrorMessage('Please enter a valid password!');
     } else {
+      setshowLoginLoader(true)
+      setButtonDisabled(true)
       const data = {
         email: username,
         password: password
@@ -59,7 +67,9 @@ const Login = () => {
           navigate('/dashboard');
         })
         .catch(error => {
+          setButtonDisabled(false)
           console.log(error.response);
+          setshowLoginLoader(false)
           setErrorMessage(error.response.data.message);
         });
     }
@@ -115,9 +125,16 @@ const Login = () => {
                       </CRow>
                       <CRow>
                         <CCol xs={6}>
-                          <CButton type="submit" color="primary" className="px-4" onClick={handleClick}>
+                          <div>
+                          <CButton disabled={isButtonDisabled} type="submit" color="primary" className="px-4" onClick={handleClick}>
                             Login
                           </CButton>
+                          {showLoginLoader ? (
+                          <div style={{display:'flex', float:'right', marginTop:'-22px', marginRight:'40px'}}>
+                            <Loader.TailSpin  color="black" width='30px'/> 
+                          </div>
+                            ) : null}
+                          </div>
                         </CCol>
                         <CCol xs={6} className="text-right">
                           <CButton color="link" className="px-0">

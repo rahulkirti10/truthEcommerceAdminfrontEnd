@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const Products = React.lazy(() => import('./views/products/Products'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -49,12 +49,23 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
+const AddProducts = React.lazy(() => import('./views/products/AddProducts'))
+const ProductsCategories = React.lazy(() => import('./views/products/ProductCategories'))
+const AddProductsCategory = React.lazy(() => import('./views/products/AddProductCategory'))
+const ProductsBanners = React.lazy(() => import('./views/products/ProductBanner'))
+const AddProductsBanners = React.lazy(() => import('./views/products/AddProductBanner'))
+const UpdateProductsBanners = React.lazy(() => import('./views/products/UpdateProductBanner'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/theme', name: 'Theme', element: Colors, exact: true },
-  { path: '/theme/colors', name: 'Colors', element: Colors },
+  { path: 'products', name: 'Products', element: Products },
+  { path:"/addProducts", name:"Add products Page", element: AddProducts} ,
+  { path:"/productsCategories", name:"products Categories Page", element: ProductsCategories} ,
+  { path:"/addProductsCategory", name:"Add products Category Page", element: AddProductsCategory} ,
+  { path:"/productBanners", name:"products Banners Page", element: ProductsBanners} ,
+  { path:"/addProductBanners", name:"Add products Banners Page", element: AddProductsBanners} ,
+  { path:"/updateProductBanners/:id", name:"update products Banners Page", element: UpdateProductsBanners} ,
   { path: '/theme/typography', name: 'Typography', element: Typography },
   { path: '/base', name: 'Base', element: Cards, exact: true },
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
